@@ -560,7 +560,10 @@ class Simple_commerce {
 			// put line feeds back to CR+LF as that's how PayPal sends them out
 			// otherwise multi-line data will be rejected as INVALID
 			// Note: get_magic_quotes_gpc FALSE as of PHP 5.4.0
-			$stripped = (get_magic_quotes_gpc()) ? stripslashes(str_replace("\n", "\r\n", $value)) : str_replace("\n", "\r\n", $value);
+			$stripped = str_replace("\n", "\r\n", $value);
+			if (version_compare(PHP_VERSION, '5.4', '<=') && get_magic_quotes_gpc()) {
+				$stripped = stripslashes($stripped);
+			}
 			$postdata .= "&$key=".urlencode($stripped);
 		}
 
@@ -612,7 +615,10 @@ class Simple_commerce {
 			// put line feeds back to CR+LF as that's how PayPal sends them out
 			// otherwise multi-line data will be rejected as INVALID
 			// Note: get_magic_quotes_gpc FALSE as of PHP 5.4.0
-			$stripped = (get_magic_quotes_gpc()) ? stripslashes(str_replace("\n", "\r\n", $value)) : str_replace("\n", "\r\n", $value);
+			$stripped = str_replace("\n", "\r\n", $value);
+			if (version_compare(PHP_VERSION, '5.4', '<=') && get_magic_quotes_gpc()) {
+				$stripped = stripslashes($stripped);
+			}
 			$postdata .= "&$key=".urlencode($stripped);
 		}
 
