@@ -176,7 +176,7 @@ class Log {
 			}
 
 			// Build the caller source info
-			$source = "\n#".$file . ' L:' . $line . '  ';
+			$source = "#".$file . ' L:' . $line . '  ';
 			$source .= ($class != '') ? $class . '::' : '';
 			$source .= ($func != '') ? $func . '() ' : '';
 		}

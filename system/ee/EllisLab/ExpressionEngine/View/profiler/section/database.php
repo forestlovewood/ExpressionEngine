@@ -10,7 +10,7 @@
 						<li>
 							<div class="query-time"><?=$dupe['count']?> &times;</div>
 							<div class="query-wrap"><pre><code><?=htmlspecialchars($dupe['query'], ENT_QUOTES, 'UTF-8')?></code></pre></div>
-							<div class="query-file"><?=$dupe['location']?></div>
+							<div class="query-file"><?=nl2br($dupe['location'])?></div>
 						</li>
 					<?php endforeach; ?>
 				</ul>
@@ -28,7 +28,7 @@
 							<i><?=$query['formatted_memory']?></i>
 						</div>
 						<div class="query-wrap"><pre><code class="sql"><?=htmlspecialchars($query['query'], ENT_QUOTES, 'UTF-8')?></code></pre></div>
-						<div class="query-file"><?=$query['location']?></div>
+						<div class="query-file"><?=nl2br($query['location'])?></div>
 					</li>
 				<?php endforeach; ?>
 			</ul>

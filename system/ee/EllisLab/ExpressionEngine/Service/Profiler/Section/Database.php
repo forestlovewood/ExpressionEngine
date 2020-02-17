@@ -131,7 +131,7 @@ class Database extends ProfilerSection {
 			$duplicates[] = array(
 				'count' => $dupe_query['count'],
 				'query' => $dupe_query['query'],
-				'location' => implode(' ', $dupe_query['locations'])
+				'location' => implode("\n", $dupe_query['locations'])
 			);
 		}
 
