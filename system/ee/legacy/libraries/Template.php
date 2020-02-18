@@ -3521,14 +3521,16 @@ class EE_Template {
 			$str = str_repeat('&nbsp;', $this->depth * 5).$str;
 		}
 
-		$time = microtime(TRUE)-$this->start_microtime;
-
+		$time = number_format(microtime(TRUE) - $this->start_microtime, 6);
 		$memory_usage = memory_get_usage();
 
-		$last = end($this->log);
-		$time = number_format($time, 6);
-		$time_gain = $time - $last['time'];
-		$memory_gain = $memory_usage - $last['memory'];
+		$time_gain = $time;
+		$memory_gain = $memory_usage;
+
+        if ($last = end($this->log)) {
+            $time_gain = $time_gain - $last['time'];
+            $memory_gain = $memory_gain - $last['memory'];
+        }
 
 		$this->log[] = array(
 			'time' => $time,
