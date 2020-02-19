@@ -142,8 +142,10 @@ class File {
 			}
 		}
 
+		ee()->db->join('upload_prefs', 'exp_upload_prefs.id = exp_files.upload_location_id', 'LEFT');
+
 		// Start pulling File IDs to both paginate on then pull data
-		ee()->db->select('exp_files.file_id');
+		ee()->db->select('files.*, upload_prefs.*');
 		ee()->db->from('files');
 
 		// Specify file ID(s) if supplied
@@ -219,17 +221,7 @@ class File {
 			return array();
 		}
 
-		foreach ($query->result() as $row)
-		{
-			$file_ids[] = $row->file_id;
-		}
-
-		//  Build the full SQL query
-		ee()->db->select('*')
-			->join('upload_prefs', 'upload_prefs.id = files.upload_location_id', 'LEFT')
-			->where_in('file_id', $file_ids)
-			->order_by($order_by, $sort);
-		return ee()->db->get('files');
+		return $query;
 	}
 
 	/**
