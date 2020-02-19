@@ -93,6 +93,10 @@ class View {
 
 		$vars['blocks'] = $this->blocks;
 
+		if (ee()->extensions->active_hook('core_before_template') === TRUE) {
+			list($path, $vars) = ee()->extensions->call('core_before_template', $path, $vars);
+		}
+
 		$this->processing = $vars;
 
 		// parse the current view
@@ -103,6 +107,10 @@ class View {
 			$vars['child_view'] = $output;
 
 			$output = $this->parent->render($vars);
+		}
+
+		if (ee()->extensions->active_hook('core_after_template') === TRUE) {
+			$output = ee()->extensions->call('core_after_template', $output);
 		}
 
 		$this->processing = array();
