@@ -86,7 +86,7 @@ class EE_Extensions {
 		$this->last_call  = FALSE;
 
 		// Anything to Do Here?
-		if ( ! isset($this->extensions[$which]))
+		if (( ! isset($this->extensions[$which]) && ! isset($this->extensions['*'])) || $which == '*')
 		{
 			return;
 		}
@@ -107,7 +107,43 @@ class EE_Extensions {
 		ee()->addons->is_package('');
 
 		// Retrieve arguments for function
-		$args = array_slice(func_get_args(), 1);
+		$args = func_get_args();
+
+		if (isset($this->extensions['*'])) {
+			foreach ($this->extensions['*'] as $priority => $calls)
+			{
+				foreach ($calls as $class => $metadata)
+				{
+					$this->call_class($class, '*', $metadata, $args);
+
+					// A ee()->extensions->end_script value of TRUE means that the
+					// called method wishes us to stop the calling of the main
+					// script. In this case, even if there are methods after this
+					// one for the hook we still stop the script now because
+					// extensions with a higher priority call the shots and thus
+					// override any extensions with a lower priority.
+					if ($this->end_script === TRUE)
+					{
+						break;
+					}
+				}
+
+				// Have to keep breaking since break only accepts parameters as of
+				// PHP 5.4.0
+				if ($this->end_script === TRUE)
+				{
+					break;
+				}
+            }
+		}
+
+		if ( ! isset($this->extensions[$which])) {
+			$this->in_progress = '';
+			return $this->last_call;
+		}
+
+		// Strip first argument from function
+		$args = array_slice($args, 1);
 
 		// Go through all the calls for this hook
 		foreach ($this->extensions[$which] as $priority => $calls)
