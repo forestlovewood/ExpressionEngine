@@ -225,6 +225,14 @@ abstract class Core {
 		// Catch anything that might bubble up from inside our app
 		try
 		{
+			ee()->load->library('core');
+			ee()->core->bootstrap();
+
+			if (ee()->extensions->active_hook('core_before_controller') === TRUE)
+			{
+				list($class, $method, $params) = ee()->extensions->call('core_before_controller', $class, $method, $params);
+			}
+
 			$controller = new $class;
 
 			// we can only ascertain method signatures for real methods, not magic __call()s
