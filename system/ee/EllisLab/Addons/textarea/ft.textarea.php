@@ -336,7 +336,7 @@ class Textarea_ft extends EE_Fieldtype {
 				)
 			);
 
-			if ( ! ee('Addon')->get('emoticon')->isInstalled())
+			if ( ! ee('Addon')->get('emoticon') || ! ee('Addon')->get('emoticon')->isInstalled())
 			{
 				unset($field_tools['fields']['field_show_smileys']);
 			}
