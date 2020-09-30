@@ -2871,7 +2871,7 @@ class Channel {
 
 	private function getExtraData($query_result)
 	{
-		$where = "WHERE t.entry_id IN (" . implode(ee()->session->cache['channel']['entry_ids'], ',') . ")";
+		$where = "WHERE t.entry_id IN (" . implode(',', ee()->session->cache['channel']['entry_ids']) . ")";
 
 		foreach ($this->chunks as $chunk)
 		{
